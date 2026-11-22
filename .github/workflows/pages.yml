@@ -18,11 +18,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Siapkan website
+      - name: Periksa dan siapkan website
         run: |
+          cat release/site.part-* > bilah-site.tar.gz
+          echo "d161aeacad4a0d86b141ba0243952dcc0cae4bd2c9084353eb66fd12041e7831  bilah-site.tar.gz" | sha256sum -c -
           mkdir -p website
           tar -xzf bilah-site.tar.gz -C website
           touch website/.nojekyll
+          test -f website/chat/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
